@@ -6,7 +6,7 @@ The Laya model card already says zero-shot is weak (0.362 on typed-decisions). T
 - **Model:** `convaiinnovations/laya`, all 3 checkpoints.
 - **Inference:** zero-shot, no temperature fitting, CPU.
 - **Data:** 61 hand-written agent transcripts × 4 questions = 244 decisions.
-- **Code, data and raw outputs:** `<REPO LINK>`
+- **Code, data and raw outputs:** https://github.com/Zephyr4772/laya-zeroshot-agent-guard-eval
 
 ## 1. It believes "done" over the tool output
 
