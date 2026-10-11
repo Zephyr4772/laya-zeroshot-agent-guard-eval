@@ -7,6 +7,7 @@ The Laya model card already says zero-shot is weak (0.362 on typed-decisions). T
 - **Inference:** zero-shot, no temperature fitting, CPU.
 - **Data:** 61 hand-written agent transcripts × 4 questions = 244 decisions.
 - **Code, data and raw outputs:** https://github.com/Zephyr4772/laya-zeroshot-agent-guard-eval
+- **Dataset on Hugging Face:** https://huggingface.co/datasets/sinhal/agent-step-guard-bench (load with `load_dataset("sinhal/agent-step-guard-bench")`)
 
 ## 1. It believes "done" over the tool output
 
