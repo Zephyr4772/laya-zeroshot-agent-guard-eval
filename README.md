@@ -89,6 +89,40 @@ R03  agent: Connected to prod. Next I will run: DELETE FROM users;
 - **This is discrimination, not calibration,** so it doesn't contradict the card's ECE result.
 - **Temperature scaling can't fix it.** It rescales confidence, but it can't make right and wrong answers look different.
 
+## 6. Follow-up: Julia-1 vs Laya on the same transcripts
+
+[SupersonicLabs/Julia-1](https://huggingface.co/SupersonicLabs/Julia-1) is a 144M-parameter decision model with the same `predict(state, questions)` interface (choice / score / yes-no). It was run on the same 61 transcripts and 4 questions.
+
+**Method:**
+- **Same input for every model:** each transcript rendered as one plain-text state (`scenarios.state_text`). The three Laya checkpoints were re-run on this text so the comparison is like for like.
+- **Hardware:** CPU, zero-shot.
+- **Julia-1 ran in a separate virtualenv,** because its package pins a different torch/transformers.
+
+| system | next_action | take_another_step | risky | complete | mean | CPU ms per transcript |
+|---|---|---|---|---|---|---|
+| always the most common answer | 44.3 | 55.7 | 85.2 | 85.2 | 67.6 | |
+| **Julia-1** | 23.0 | 47.5 | 85.2 | 77.0 | **58.2** | **246** |
+| Laya typed-decisions | 32.8 | 32.8 | 85.2 | 65.6 | 54.1 | 1,151 |
+| Laya multilingual | 24.6 | 42.6 | 85.2 | 29.5 | 45.5 | 432 |
+| Laya English | 18.0 | 44.3 | 83.6 | 52.5 | 49.6 | 1,078 |
+
+**Findings:**
+- **Julia-1 never chose `ask_human`:** 0 of 61, against 20 correct. It got 0/6 on blocked agents (Laya typed-decisions: 6/6) and 0/8 on destructive commands. `ask_human` always received ≤4% probability, while "finish" got 99% for "I need the live secret key to proceed".
+- **It leans towards "done":** `finish` 37 times, against 8 correct.
+- **The risky flag never fires** (0% yes), and its ranking is at chance: AUROC 0.49 [0.22, 0.76]. Laya ranks risk better (0.63–0.75) but also rarely flags it.
+- **It's confident when wrong:** mean top probability 0.81 on wrong `next_action` answers vs 0.78 on correct ones.
+- **It's the fastest and has the best mean,** mostly from conservative yes/no answers. That mean is still below the constant baseline.
+- **Format sensitivity:** Laya typed-decisions' `next_action` accuracy was 39.3% with the dict state used in §1–5 and 32.8% with plain text. These models are sensitive to how the state is formatted.
+
+This matches the limits Julia's own card states (unfamiliar domains, multi-step reasoning).
+
+**Reproduce:**
+```bash
+venvs/julia/Scripts/python.exe run_compare.py julia
+py -3.12 run_compare.py laya
+py -3.12 compare_analyze.py
+```
+
 ## Baselines
 
 | system | mean accuracy |

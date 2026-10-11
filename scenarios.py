@@ -282,3 +282,8 @@ def gold(s):
 
 def state(s):
     return {"task": s["task"], "steps": ["%s: %s" % (r, t) for r, t in s["steps"]]}
+
+
+def state_text(s):
+    """Plain-text rendering of a transcript, used for the Julia-1 vs Laya comparison (same input for every model)."""
+    return "Task: %s\nSteps so far:\n%s" % (s["task"], "\n".join("%s: %s" % (r, t) for r, t in s["steps"]))
