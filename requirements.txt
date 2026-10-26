@@ -2,3 +2,5 @@ torch==2.5.1
 transformers==5.12.1
 safetensors==0.8.0
 numpy==2.5.0
+scikit-learn
+huggingface_hub

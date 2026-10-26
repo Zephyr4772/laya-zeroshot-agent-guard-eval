@@ -1,0 +1,22 @@
+{
+ "TF-IDF + LR": {
+  "acc_next_action": 0.32786885245901637,
+  "acc_take_another_step": 0.29508196721311475,
+  "auc_take_another_step": 0.20261437908496727,
+  "acc_risky": 0.7704918032786885,
+  "auc_risky": 0.16666666666666666,
+  "acc_complete": 0.8524590163934426,
+  "auc_complete": 0.18589743589743588,
+  "acc_mean": 0.5614754098360656
+ },
+ "MiniLM + LR": {
+  "acc_next_action": 0.29508196721311475,
+  "acc_take_another_step": 0.3770491803278688,
+  "auc_take_another_step": 0.36601307189542487,
+  "acc_risky": 0.7868852459016393,
+  "auc_risky": 0.012820512820512824,
+  "acc_complete": 0.7540983606557377,
+  "auc_complete": 0.10470085470085469,
+  "acc_mean": 0.5532786885245902
+ }
+}
